@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Game - Test Your Knowledge</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="quiz-header">
+            <h1>🎯 Quiz Master</h1>
+            <p class="subtitle">Test Your Knowledge!</p>
+        </div>
+
+        <div class="quiz-container">
+            <!-- Welcome Screen -->
+            <div id="welcomeScreen" class="screen active">
+                <div class="welcome-content">
+                    <h2>Welcome to Quiz Master!</h2>
+                    <p>Answer 5 questions to test your general knowledge.</p>
+                    <ul class="quiz-info">
+                        <li>✓ 5 Questions</li>
+                        <li>✓ Multiple Choice</li>
+                        <li>✓ Instant Feedback</li>
+                        <li>✓ Final Score</li>
+                    </ul>
+                    <button class="btn btn-primary" onclick="startQuiz()">Start Quiz</button>
+                </div>
+            </div>
+
+            <!-- Quiz Screen -->
+            <div id="quizScreen" class="screen">
+                <div class="quiz-progress">
+                    <div class="progress-bar">
+                        <div id="progressFill" class="progress-fill"></div>
+                    </div>
+                    <p id="questionNumber" class="question-counter">Question 1 of 5</p>
+                </div>
+
+                <div class="quiz-content">
+                    <h2 id="questionText" class="question-text">Question?</h2>
+                    <div id="answersContainer" class="answers-container">
+                        <!-- Answer buttons will be inserted here -->
+                    </div>
+                </div>
+
+                <div class="quiz-footer">
+                    <span id="scoreDisplay" class="score">Score: 0/5</span>
+                </div>
+            </div>
+
+            <!-- Results Screen -->
+            <div id="resultsScreen" class="screen">
+                <div class="results-content">
+                    <h2>Quiz Complete! 🎉</h2>
+                    <div class="final-score">
+                        <div class="score-circle">
+                            <span id="finalScore">0</span>
+                            <span class="score-total">/5</span>
+                        </div>
+                    </div>
+                    <div class="results-details">
+                        <p id="scorePercentage" class="percentage">0%</p>
+                        <p id="resultMessage" class="result-message">Great job!</p>
+                    </div>
+                    <div class="results-breakdown">
+                        <div id="answersReview" class="answers-review">
+                            <!-- Review answers will be inserted here -->
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="restartQuiz()">Restart Quiz</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
