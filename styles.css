@@ -119,6 +119,65 @@ body {
     color: #999;
 }
 
+.timer-container {
+    margin-bottom: 15px;
+}
+
+.timer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 0.95em;
+    color: #555;
+    font-weight: 600;
+}
+
+.timer-text {
+    color: #667eea;
+    font-weight: bold;
+}
+
+.timer-text.warning {
+    color: #ff9800;
+}
+
+.timer-text.danger {
+    color: #f44336;
+}
+
+.timer-bar {
+    height: 10px;
+    background: #e0e0e0;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.timer-fill {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #4caf50 0%, #8bc34a 100%);
+    border-radius: 999px;
+    transition: width 1s linear, background 0.3s ease;
+}
+
+.timer-fill.warning {
+    background: linear-gradient(90deg, #ffb74d 0%, #ff9800 100%);
+}
+
+.timer-fill.danger {
+    background: linear-gradient(90deg, #ef5350 0%, #f44336 100%);
+}
+
+.timer-status {
+    min-height: 20px;
+    margin-top: 8px;
+    text-align: right;
+    font-size: 0.9em;
+    color: #f44336;
+    font-weight: 600;
+}
+
 .quiz-content {
     margin-bottom: 30px;
 }

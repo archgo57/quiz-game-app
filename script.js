@@ -30,12 +30,16 @@ let currentQuestion = 0;
 let score = 0;
 let answered = false;
 let userAnswers = [];
+const questionTimeLimit = 20;
+let timeRemaining = questionTimeLimit;
+let timerInterval = null;
 
 function startQuiz() {
     currentQuestion = 0;
     score = 0;
     answered = false;
     userAnswers = [];
+    stopTimer();
     showScreen('quizScreen');
     loadQuestion();
 }
@@ -69,21 +73,67 @@ function loadQuestion() {
     document.getElementById('scoreDisplay').textContent = `Score: ${score}/${quizData.length}`;
     
     answered = false;
+    startTimer();
 }
 
-function selectAnswer(index) {
+function startTimer() {
+    stopTimer();
+    timeRemaining = questionTimeLimit;
+    document.getElementById('timerStatus').textContent = '';
+    updateTimerDisplay();
+
+    timerInterval = setInterval(() => {
+        timeRemaining--;
+        updateTimerDisplay();
+
+        if (timeRemaining <= 0) {
+            stopTimer();
+            handleTimeUp();
+        }
+    }, 1000);
+}
+
+function stopTimer() {
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+}
+
+function updateTimerDisplay() {
+    const timerText = document.getElementById('timerText');
+    const timerFill = document.getElementById('timerFill');
+    const timerPercent = (timeRemaining / questionTimeLimit) * 100;
+
+    timerText.textContent = `${timeRemaining}s`;
+    timerText.classList.toggle('warning', timeRemaining <= 10 && timeRemaining > 5);
+    timerText.classList.toggle('danger', timeRemaining <= 5);
+
+    timerFill.style.width = `${timerPercent}%`;
+    timerFill.classList.toggle('warning', timeRemaining <= 10 && timeRemaining > 5);
+    timerFill.classList.toggle('danger', timeRemaining <= 5);
+}
+
+function handleTimeUp() {
+    if (answered) return;
+    document.getElementById('timerStatus').textContent = "Time's up!";
+    selectAnswer(null, true);
+}
+
+function selectAnswer(index, timedOut = false) {
     if (answered) return;
     
     answered = true;
+    stopTimer();
     const question = quizData[currentQuestion];
     const buttons = document.querySelectorAll('.answer-btn');
     
     // Record user answer
     userAnswers.push({
         question: question.question,
-        userAnswer: question.answers[index],
+        userAnswer: timedOut ? "No answer (Time's up)" : question.answers[index],
         correctAnswer: question.answers[question.correct],
-        correct: index === question.correct
+        correct: !timedOut && index === question.correct
     });
     
     // Show correct/incorrect feedback
@@ -93,13 +143,13 @@ function selectAnswer(index) {
         
         if (btnIndex === question.correct) {
             button.classList.add('correct');
-        } else if (btnIndex === index && index !== question.correct) {
+        } else if (!timedOut && btnIndex === index && index !== question.correct) {
             button.classList.add('incorrect');
         }
     });
     
     // Update score if correct
-    if (index === question.correct) {
+    if (!timedOut && index === question.correct) {
         score++;
     }
     
@@ -122,6 +172,7 @@ function showScreen(screenId) {
 }
 
 function showResults() {
+    stopTimer();
     showScreen('resultsScreen');
     
     // Calculate percentage
@@ -165,6 +216,7 @@ function showResults() {
 }
 
 function restartQuiz() {
+    stopTimer();
     showScreen('welcomeScreen');
 }
 
