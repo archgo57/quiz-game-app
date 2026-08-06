@@ -242,6 +242,5 @@ function restartQuiz() {
 
 // Initialize by showing welcome screen
 window.addEventListener('load', () => {
-    initializeTimerRing();
     showScreen('welcomeScreen');
 });
