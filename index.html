@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Game - Test Your Knowledge</title>
+    <title>BrainBolt Challenge - Race the Clock. Rule the Quiz.</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <div class="quiz-header">
-            <h1>🎯 Quiz Master</h1>
-            <p class="subtitle">Test Your Knowledge!</p>
+            <h1>🧠 BrainBolt Challenge</h1>
+            <p class="subtitle">Race the Clock. Rule the Quiz.</p>
         </div>
 
         <div class="quiz-container">
             <!-- Welcome Screen -->
             <div id="welcomeScreen" class="screen active">
                 <div class="welcome-content">
-                    <h2>Welcome to Quiz Master!</h2>
+                    <h2>Welcome to BrainBolt Challenge!</h2>
                     <p>Answer 5 questions to test your general knowledge.</p>
                     <ul class="quiz-info">
                         <li>✓ 5 Questions</li>
@@ -36,12 +36,17 @@
                         <div id="progressFill" class="progress-fill"></div>
                     </div>
                     <div class="timer-container">
-                        <div class="timer-header">
-                            <span class="timer-label">Time Remaining</span>
-                            <span id="timerText" class="timer-text">20s</span>
-                        </div>
-                        <div class="timer-bar">
-                            <div id="timerFill" class="timer-fill"></div>
+                        <div class="timer-display" role="group" aria-labelledby="timerLabel timerText">
+                            <div class="timer-ring">
+                                <svg class="timer-svg" viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+                                    <circle class="timer-track" cx="60" cy="60" r="52"></circle>
+                                    <circle id="timerFill" class="timer-fill" cx="60" cy="60" r="52"></circle>
+                                </svg>
+                                <div class="timer-readout">
+                                    <span id="timerLabel" class="timer-label">Time Remaining</span>
+                                    <span id="timerText" class="timer-text">20s</span>
+                                </div>
+                            </div>
                         </div>
                         <p id="timerStatus" class="timer-status" aria-live="polite"></p>
                     </div>
