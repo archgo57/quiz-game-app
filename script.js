@@ -37,6 +37,12 @@ let timerDeadline = 0;
 const timerRadius = 52;
 const timerCircumference = 2 * Math.PI * timerRadius;
 
+function initializeTimerRing() {
+    const timerFill = document.getElementById('timerFill');
+    timerFill.style.strokeDasharray = `${timerCircumference}`;
+    timerFill.style.strokeDashoffset = '0';
+}
+
 function startQuiz() {
     currentQuestion = 0;
     score = 0;
@@ -84,8 +90,8 @@ function startTimer() {
     timeRemaining = questionTimeLimit;
     timerDeadline = performance.now() + (questionTimeLimit * 1000);
     document.getElementById('timerStatus').textContent = '';
-    document.getElementById('timerFill').style.strokeDasharray = `${timerCircumference}`;
-    updateTimerDisplay();
+    initializeTimerRing();
+    updateTimerDisplay(questionTimeLimit * 1000);
 
     const tick = (now) => {
         const remainingMs = Math.max(0, timerDeadline - now);
@@ -111,7 +117,7 @@ function stopTimer() {
     }
 }
 
-function updateTimerDisplay(remainingMs = timeRemaining * 1000) {
+function updateTimerDisplay(remainingMs) {
     const timerText = document.getElementById('timerText');
     const timerFill = document.getElementById('timerFill');
     const timerRatio = Math.max(0, remainingMs / (questionTimeLimit * 1000));
@@ -236,5 +242,6 @@ function restartQuiz() {
 
 // Initialize by showing welcome screen
 window.addEventListener('load', () => {
+    initializeTimerRing();
     showScreen('welcomeScreen');
 });
