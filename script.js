@@ -32,7 +32,16 @@ let answered = false;
 let userAnswers = [];
 const questionTimeLimit = 20;
 let timeRemaining = questionTimeLimit;
-let timerInterval = null;
+let timerAnimationFrame = null;
+let timerDeadline = 0;
+const timerRadius = 52;
+const timerCircumference = 2 * Math.PI * timerRadius;
+
+function initializeTimerRing() {
+    const timerFill = document.getElementById('timerFill');
+    timerFill.style.strokeDasharray = `${timerCircumference}`;
+    timerFill.style.strokeDashoffset = '0';
+}
 
 function startQuiz() {
     currentQuestion = 0;
@@ -79,39 +88,50 @@ function loadQuestion() {
 function startTimer() {
     stopTimer();
     timeRemaining = questionTimeLimit;
+    timerDeadline = performance.now() + (questionTimeLimit * 1000);
     document.getElementById('timerStatus').textContent = '';
-    updateTimerDisplay();
+    initializeTimerRing();
+    updateTimerDisplay(questionTimeLimit * 1000);
 
-    timerInterval = setInterval(() => {
-        timeRemaining--;
-        updateTimerDisplay();
+    const tick = (now) => {
+        const remainingMs = Math.max(0, timerDeadline - now);
+        timeRemaining = Math.ceil(remainingMs / 1000);
+        updateTimerDisplay(remainingMs);
 
-        if (timeRemaining <= 0) {
+        if (remainingMs <= 0) {
             stopTimer();
             handleTimeUp();
+            return;
         }
-    }, 1000);
+
+        timerAnimationFrame = requestAnimationFrame(tick);
+    };
+
+    timerAnimationFrame = requestAnimationFrame(tick);
 }
 
 function stopTimer() {
-    if (timerInterval) {
-        clearInterval(timerInterval);
-        timerInterval = null;
+    if (timerAnimationFrame) {
+        cancelAnimationFrame(timerAnimationFrame);
+        timerAnimationFrame = null;
     }
 }
 
-function updateTimerDisplay() {
+function updateTimerDisplay(remainingMs) {
     const timerText = document.getElementById('timerText');
     const timerFill = document.getElementById('timerFill');
-    const timerPercent = (timeRemaining / questionTimeLimit) * 100;
+    const timerRatio = Math.max(0, remainingMs / (questionTimeLimit * 1000));
+    const secondsRemaining = Math.ceil(remainingMs / 1000);
 
-    timerText.textContent = `${timeRemaining}s`;
-    timerText.classList.toggle('warning', timeRemaining <= 10 && timeRemaining > 5);
-    timerText.classList.toggle('danger', timeRemaining <= 5);
+    timerFill.style.strokeDashoffset = `${timerCircumference * (1 - timerRatio)}`;
 
-    timerFill.style.width = `${timerPercent}%`;
-    timerFill.classList.toggle('warning', timeRemaining <= 10 && timeRemaining > 5);
-    timerFill.classList.toggle('danger', timeRemaining <= 5);
+    timerText.textContent = `${secondsRemaining}s`;
+    timerText.setAttribute('aria-label', `${secondsRemaining} seconds remaining`);
+    timerText.classList.toggle('warning', secondsRemaining <= 10 && secondsRemaining > 5);
+    timerText.classList.toggle('danger', secondsRemaining <= 5);
+
+    timerFill.classList.toggle('warning', secondsRemaining <= 10 && secondsRemaining > 5);
+    timerFill.classList.toggle('danger', secondsRemaining <= 5);
 }
 
 function handleTimeUp() {

@@ -123,18 +123,70 @@ body {
     margin-bottom: 15px;
 }
 
-.timer-header {
+.timer-display {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+}
+
+.timer-ring {
+    position: relative;
+    width: 140px;
+    height: 140px;
+}
+
+.timer-svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.timer-track,
+.timer-fill {
+    fill: none;
+    stroke-width: 10;
+}
+
+.timer-track {
+    stroke: #e6e9f7;
+}
+
+.timer-fill {
+    stroke: #4caf50;
+    stroke-linecap: round;
+    transform-origin: center;
+}
+
+.timer-fill.warning {
+    stroke: #ff9800;
+}
+
+.timer-fill.danger {
+    stroke: #f44336;
+}
+
+.timer-readout {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    margin-bottom: 8px;
-    font-size: 0.95em;
-    color: #555;
+    justify-content: center;
+    text-align: center;
+    gap: 6px;
+    padding: 20px;
+}
+
+.timer-label {
+    font-size: 0.85em;
+    color: #666;
     font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
 }
 
 .timer-text {
     color: #667eea;
+    font-size: 1.9em;
     font-weight: bold;
 }
 
@@ -146,33 +198,10 @@ body {
     color: #f44336;
 }
 
-.timer-bar {
-    height: 10px;
-    background: #e0e0e0;
-    border-radius: 999px;
-    overflow: hidden;
-}
-
-.timer-fill {
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, #4caf50 0%, #8bc34a 100%);
-    border-radius: 999px;
-    transition: width 1s linear, background 0.3s ease;
-}
-
-.timer-fill.warning {
-    background: linear-gradient(90deg, #ffb74d 0%, #ff9800 100%);
-}
-
-.timer-fill.danger {
-    background: linear-gradient(90deg, #ef5350 0%, #f44336 100%);
-}
-
 .timer-status {
     min-height: 20px;
-    margin-top: 8px;
-    text-align: right;
+    margin-top: 12px;
+    text-align: center;
     font-size: 0.9em;
     color: #f44336;
     font-weight: 600;
@@ -393,6 +422,15 @@ body {
     .answer-btn {
         padding: 15px 20px;
         font-size: 1em;
+    }
+
+    .timer-ring {
+        width: 120px;
+        height: 120px;
+    }
+
+    .timer-text {
+        font-size: 1.7em;
     }
 
     .score-circle {
