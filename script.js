@@ -84,6 +84,7 @@ function startTimer() {
     timeRemaining = questionTimeLimit;
     timerDeadline = performance.now() + (questionTimeLimit * 1000);
     document.getElementById('timerStatus').textContent = '';
+    document.getElementById('timerFill').style.strokeDasharray = `${timerCircumference}`;
     updateTimerDisplay();
 
     const tick = (now) => {
@@ -116,7 +117,6 @@ function updateTimerDisplay(remainingMs = timeRemaining * 1000) {
     const timerRatio = Math.max(0, remainingMs / (questionTimeLimit * 1000));
     const secondsRemaining = Math.ceil(remainingMs / 1000);
 
-    timerFill.style.strokeDasharray = `${timerCircumference}`;
     timerFill.style.strokeDashoffset = `${timerCircumference * (1 - timerRatio)}`;
 
     timerText.textContent = `${secondsRemaining}s`;
